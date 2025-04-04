@@ -77,5 +77,14 @@
                 }
             }
         }
+
+        public bool CheckVictory()
+        {
+            foreach (Field field in Fields)
+            {
+                if (!field.IsBomb && !field.IsExposed) return false;
+            }
+            return true;
+        }
     }
 }

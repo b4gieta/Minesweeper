@@ -6,5 +6,8 @@
         xmlns:local="clr-namespace:Minesweeper"
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="500">
-        <UniformGrid Name="GameGrid" Columns="10" Rows="10" Width="400px" Height="400px"/>
+        <StackPanel>
+            <Button Content="Restart" Click="Restart_Click" Width="100" Height="40" Margin="10" FontSize="18"/>
+            <UniformGrid Name="GameGrid" Columns="10" Rows="10" Width="400" Height="400"/>
+        </StackPanel>
 </Window>

@@ -12,6 +12,8 @@ namespace Minesweeper
     public partial class MainWindow : Window
     {
         private MainViewModel ViewModel;
+        private readonly string BombSign = "💣";
+        private readonly string MarkSign = "⚑";
 
         public MainWindow()
         {
@@ -19,6 +21,7 @@ namespace Minesweeper
             ViewModel = new MainViewModel();
             DataContext = ViewModel;
             GenerateFields();
+            ViewModel.GameWon += OnGameWon;
         }
 
         private void GenerateFields()
@@ -55,13 +58,14 @@ namespace Minesweeper
 
                 if (field.IsBomb)
                 {
-                    btn.Content = "B";
+                    btn.Content = BombSign;
                     btn.Background = Brushes.Red;
                     DisableAllButtons();
                 }
                 else
                 {
-                    btn.Content = field.BombsAround.ToString();
+                    if (field.BombsAround > 0) btn.Content = field.BombsAround.ToString();
+                    else btn.Content = "";
                     btn.Background = Brushes.LightGray;
                     if (field.BombsAround == 0)
                     {
@@ -69,6 +73,8 @@ namespace Minesweeper
                         RefreshReveal();
                     }
                 }
+
+                ViewModel.CheckVictory();
             }
         }
 
@@ -81,7 +87,7 @@ namespace Minesweeper
                 if (!field.IsExposed)
                 {
                     field.IsMarked = !field.IsMarked;
-                    btn.Content = field.IsMarked ? "F" : "";
+                    btn.Content = field.IsMarked ? MarkSign : "";
                 }
             }
         }
@@ -104,11 +110,35 @@ namespace Minesweeper
 
                     if (field.IsExposed)
                     {
-                        btn.Content = field.BombsAround.ToString();
+                        if (field.BombsAround > 0) btn.Content = field.BombsAround.ToString();
+                        else btn.Content = "";
                         btn.Background = Brushes.LightGray;
                     }
                 }
             }
+        }
+
+        private void Restart_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.NewGame();
+
+            foreach (var child in GameGrid.Children)
+            {
+                if (child is Button btn)
+                {
+                    btn.Content = "";
+                    btn.Background = Brushes.LightGreen;
+                    btn.IsEnabled = true;
+                }
+            }
+
+            Background = Brushes.White;
+        }
+
+        private void OnGameWon()
+        {
+            DisableAllButtons();
+            Background = Brushes.LightGreen;
         }
     }
 }
