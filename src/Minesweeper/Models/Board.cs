@@ -9,12 +9,18 @@
             Fields = new List<Field>();
             for (int i = 0; i < 100; i++) Fields.Add(new Field());
 
-            List<Field> bombFields = new List<Field>();
             Random rnd = new Random();
-            while (bombFields.Count < 30)
+            HashSet<int> bombIndexes = new HashSet<int>();
+
+            while (bombIndexes.Count < 30)
             {
                 int fieldIndex = rnd.Next(0, 100);
-                if (!bombFields.Contains(Fields[fieldIndex])) Fields[fieldIndex].IsBomb = true;
+                bombIndexes.Add(fieldIndex);
+            }
+
+            foreach (int index in bombIndexes)
+            {
+                Fields[index].IsBomb = true;
             }
         }
     }
