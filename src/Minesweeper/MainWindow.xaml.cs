@@ -36,6 +36,7 @@ namespace Minesweeper
 
                 btn.Background = Brushes.LightGreen;
                 btn.Click += Field_Click;
+                btn.PreviewMouseRightButtonDown += Field_RightClick;
 
                 GameGrid.Children.Add(btn);
             }
@@ -47,23 +48,40 @@ namespace Minesweeper
             {
                 Field field = ViewModel.Fields[index];
 
-                if (field.IsExposed)
-                    return;
+                if (!ViewModel.Board.BombsPlaced) ViewModel.Board.PlaceBombs(index);
 
+                if (field.IsExposed) return;
                 field.IsExposed = true;
 
                 if (field.IsBomb)
                 {
                     btn.Content = "B";
                     btn.Background = Brushes.Red;
-
-                    MessageBox.Show("Przegrałeś.");
                     DisableAllButtons();
                 }
                 else
                 {
-                    btn.Content = "";
+                    btn.Content = field.BombsAround.ToString();
                     btn.Background = Brushes.LightGray;
+                    if (field.BombsAround == 0)
+                    {
+                        ViewModel.Board.RevealEmptyFields(index);
+                        RefreshReveal();
+                    }
+                }
+            }
+        }
+
+        private void Field_RightClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is int index)
+            {
+                var field = ViewModel.Fields[index];
+
+                if (!field.IsExposed)
+                {
+                    field.IsMarked = !field.IsMarked;
+                    btn.Content = field.IsMarked ? "F" : "";
                 }
             }
         }
@@ -72,9 +90,23 @@ namespace Minesweeper
         {
             foreach (var child in GameGrid.Children)
             {
-                if (child is Button btn)
+                if (child is Button btn) btn.IsEnabled = false;
+            }
+        }
+
+        private void RefreshReveal()
+        {
+            for (int i = 0; i < GameGrid.Children.Count; i++)
+            {
+                if (GameGrid.Children[i] is Button btn)
                 {
-                    btn.IsEnabled = false;
+                    var field = ViewModel.Fields[i];
+
+                    if (field.IsExposed)
+                    {
+                        btn.Content = field.BombsAround.ToString();
+                        btn.Background = Brushes.LightGray;
+                    }
                 }
             }
         }
