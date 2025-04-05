@@ -32,11 +32,11 @@ namespace Minesweeper
                 Button btn = new Button
                 {
                     Content = "",
-                    FontSize = 24,
                     Width = 40,
                     Height = 40,
                     Tag = i,
-                    Background = Brushes.LightGreen,
+                    Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#090c12"),
+                    Style = (Style)FindResource("MinefieldButton"),
                 };
 
                 btn.Click += Field_Click;
@@ -65,14 +65,15 @@ namespace Minesweeper
                 if (child is Button btn) SetButtonAsDefault(btn);
             }
 
-            Background = Brushes.White;
+            Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#1a2336");
         }
 
         public void SetButtonAsDefault(Button btn)
         {
             btn.Content = "";
-            btn.Background = Brushes.LightGreen;
             btn.IsEnabled = true;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#090c12");
+            btn.Style = (Style)FindResource("MinefieldButton");
         }
 
         public void SetButtonAsMarked(Button btn, Field field)
@@ -84,13 +85,15 @@ namespace Minesweeper
         {
             if (field.BombsAround > 0) btn.Content = field.BombsAround.ToString();
             else btn.Content = "";
-            btn.Background = Brushes.LightGray;
+            btn.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#3a3c40");
+            btn.Style = (Style)FindResource("MinefieldButtonRevealed");
         }
 
         public void SetButtonAsBomb(Button btn)
         {
             btn.Content = BombSign;
             btn.Background = Brushes.Red;
+            Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#4d1a1a");
         }
 
         public void DisableAllButtons()
@@ -115,8 +118,8 @@ namespace Minesweeper
 
         private void OnGameWon()
         {
-            DisableAllButtons();
-            Background = Brushes.LightGreen;
+            DisableAllButtons(); 
+            Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#538f5c");
         }
     }
 }
