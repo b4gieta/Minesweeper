@@ -43,7 +43,6 @@ namespace Minesweeper.ViewModels
         {
             InitializeTimer();
             NewGame();
-            
         }
 
         public void NewGame()
@@ -95,10 +94,10 @@ namespace Minesweeper.ViewModels
                 {
                     Board.RevealEmptyFields(index);
                     MainWindow.RefreshReveal();
-                    RefreshBombsLeft();
                 }
             }
 
+            RefreshBombsLeft();
             CheckVictory();
         }
 

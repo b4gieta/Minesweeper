@@ -14,6 +14,18 @@ namespace Minesweeper
         private MainViewModel ViewModel;
         private readonly string BombSign = "💣";
         private readonly string MarkSign = "⚑";
+        List<Color> BombCountColors = new List<Color>
+        {
+            (Color)ColorConverter.ConvertFromString("#FFFFFF"),
+            (Color)ColorConverter.ConvertFromString("#c95c55"), //1
+            (Color)ColorConverter.ConvertFromString("#377d45"), //2
+            (Color)ColorConverter.ConvertFromString("#335fa1"), //3
+            (Color)ColorConverter.ConvertFromString("#3e1d75"), //4
+            (Color)ColorConverter.ConvertFromString("#a37121"), //5
+            (Color)ColorConverter.ConvertFromString("#912396"), //6
+            (Color)ColorConverter.ConvertFromString("#b8690f"), //7
+            (Color)ColorConverter.ConvertFromString("#5505b0"), //8
+        };
 
         public MainWindow()
         {
@@ -37,6 +49,7 @@ namespace Minesweeper
                     Tag = i,
                     Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#090c12"),
                     Style = (Style)FindResource("MinefieldButton"),
+                    Foreground = Brushes.White,
                 };
 
                 btn.Click += Field_Click;
@@ -73,6 +86,7 @@ namespace Minesweeper
             btn.Content = "";
             btn.IsEnabled = true;
             btn.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#090c12");
+            btn.Foreground = Brushes.White;
             btn.Style = (Style)FindResource("MinefieldButton");
         }
 
@@ -86,6 +100,7 @@ namespace Minesweeper
             if (field.BombsAround > 0) btn.Content = field.BombsAround.ToString();
             else btn.Content = "";
             btn.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#3a3c40");
+            btn.Foreground = new SolidColorBrush(BombCountColors[field.BombsAround]);
             btn.Style = (Style)FindResource("MinefieldButtonRevealed");
         }
 

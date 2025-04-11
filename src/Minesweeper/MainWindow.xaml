@@ -37,7 +37,6 @@
         </Style>
         <Style x:Key="MinefieldButton" TargetType="Button">
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Template">
@@ -63,7 +62,6 @@
         </Style>
         <Style x:Key="MinefieldButtonRevealed" TargetType="Button">
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Template">
