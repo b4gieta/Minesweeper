@@ -87,9 +87,20 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="CounterTextBlock" TargetType="TextBlock">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
     <StackPanel>
-        <Button Content="Restart" Click="Restart_Click" Width="100" Height="40" Margin="10" FontSize="18" Style="{StaticResource RestartButton}"/>
-        <UniformGrid Name="GameGrid" Columns="10" Rows="10" Width="436" Height="436"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20">
+            <TextBlock Text="{Binding BombsLeft, StringFormat='💣: {0:00}'}" Style="{StaticResource CounterTextBlock}"/>
+            <Button Content="Restart" Click="Restart_Click" Width="100" Height="40" FontSize="18" Style="{StaticResource RestartButton}"/>
+            <TextBlock Text="{Binding TimerCount, StringFormat='⏱️: {0:000}'}" Style="{StaticResource CounterTextBlock}"/>
         </StackPanel>
+        <UniformGrid Name="GameGrid" Columns="10" Rows="10" Width="436" Height="436"/>
+    </StackPanel>
 </Window>
